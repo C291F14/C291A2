@@ -1,5 +1,6 @@
 # Berkeley DB
 # Cody Ingram
+# Aaron Tse
 
 import bsddb3 as db3
 import sys 
@@ -30,40 +31,70 @@ def main():
 			if arg == 'btree':
 				#btree
 				subprocess.call(['rm', '-r', '-f', DA_FILE, '/tmp/my_db'])
-    				subprocess.call(['mkdir', '/tmp/my_db'])
+				subprocess.call(['mkdir', '/tmp/my_db'])
 				try:
-        				db = bsddb.btopen(DA_FILE, "w")
-    				except:
-        				print("DB doesn't exist, creating a new one.")
-        				db = bsddb.btopen(DA_FILE, "c") 
+					db = bsddb.btopen(DA_FILE, "w")
+				except:
+					print("DB doesn't exist, creating a new one.")
+					db = bsddb.btopen(DA_FILE, "c") 
 					
 				btreeCreatePopDB.btreeCreatePop(db, DA_FILE)
 
 			elif arg == 'hash':
 				#hash
 				subprocess.call(['rm', '-r', '-f', DA_FILE, '/tmp/my_db'])
-    				subprocess.call(['mkdir', '/tmp/my_db'])
+				subprocess.call(['mkdir', '/tmp/my_db'])
 				try:
-        				db = bsddb.hashopen(DA_FILE, "w")
-    				except:
-        				print("DB doesn't exist, creating a new one.")
-        				db = bsddb.hashopen(DA_FILE, "c") 
+					db = bsddb.hashopen(DA_FILE, "w")
+				except:
+					print("DB doesn't exist, creating a new one.")
+					db = bsddb.hashopen(DA_FILE, "c") 
 					
 				btreeCreatePopDB.btreeCreatePop(db, DA_FILE)
 
 			elif arg == 'indexfile':
 				#indexfile
+				print("some code")
+
+			else:
+				print("error");
 
 		elif opt == '2':
-			print("call something")
+			key = input("Please enter a key: ")#.lower()
+			key = key.encode(encoding = 'UTF-8')
+			if db.has_key(key) == True:
+				value = db[key]
+				print(value)
+			else:
+				print("There is no value associated with that key")
+
 		elif opt == '3':
-			print("call something")
+			value = input("Please enter a value: ")#.lower()
+			value = value.encode(encoding = 'UTF-8')
+			
+
 		elif opt == '4':
 			print("call something")
+
 		elif opt == '5':
-			print("call something")
+			try:
+				db.close()
+				subprocess.call(['rm', '-r', '-f', DA_FILE, '/tmp/my_db'])
+				print("Database closed")
+			except:
+				print("Database could not be closed")
+				raise
+
 		elif opt == '6':
-			print("call something")
+			try:
+				db.close()
+				subprocess.call(['rm','-r','-f',DA_FILE,'/tmp/my_db'])
+				print("Thank you, come again")
+				sys.exit()
+			except:
+				print("Database could not be closed")
+				raise
+
 		else:
-			print("Invalid Input")
+			print("Invalid input, Please try again")
 			continue
