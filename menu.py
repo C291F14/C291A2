@@ -12,7 +12,7 @@ DA_FILE = "/tmp/my_db/291_db.db"
 
 def main():
 	
-	arg = sys.argv[0].lower()
+	arg = sys.argv[1].lower()
 	inpList = ['btree', 'hash', 'indexfile']
 
 	# check valid program argument
@@ -23,36 +23,38 @@ def main():
 	# menu start
 	while True:
 		
-		opt = input("Please Select An Option\n 1 - Create and populate a database\n 2 - Retrieve records with a given key\n \
-			3 - Retrieve records with given data\n 4 - Retrieve records with a range of key values\n 5 - Destroy Database\n 6 - Quit\n")
+		opt = input("Please Select An Option\n 1 - Create and populate a database\n 2 - Retrieve records with a given key\n 3 - Retrieve records with given data\n 4 - Retrieve records with a range of key values\n 5 - Destroy Database\n 6 - Quit\n")
 		
+		db = False
+
 		if opt == '1':
 			if arg == 'btree':
 				#btree
 				subprocess.call(['rm', '-r', '-f', DA_FILE, '/tmp/my_db'])
-    				subprocess.call(['mkdir', '/tmp/my_db'])
+				subprocess.call(['mkdir', '/tmp/my_db'])
 				try:
-        				db = bsddb.btopen(DA_FILE, "w")
-    				except:
-        				print("DB doesn't exist, creating a new one.")
-        				db = bsddb.btopen(DA_FILE, "c") 
+					db = db3.btopen(DA_FILE, "w")
+				except:
+					print("DB doesn't exist, creating a new one.")
+					db = db3.btopen(DA_FILE, "c") 
 					
-				btreeCreatePopDB.btreeCreatePop(db, DA_FILE)
+				btreeCreatePopDB.CreatePop(db, DA_FILE)
 
 			elif arg == 'hash':
 				#hash
 				subprocess.call(['rm', '-r', '-f', DA_FILE, '/tmp/my_db'])
-    				subprocess.call(['mkdir', '/tmp/my_db'])
+				subprocess.call(['mkdir', '/tmp/my_db'])
 				try:
-        				db = bsddb.hashopen(DA_FILE, "w")
-    				except:
-        				print("DB doesn't exist, creating a new one.")
-        				db = bsddb.hashopen(DA_FILE, "c") 
-					
-				btreeCreatePopDB.btreeCreatePop(db, DA_FILE)
+					db = db3.hashopen(DA_FILE, "w")
+				except:
+					print("DB doesn't exist, creating a new one.")
+					db = db3.hashopen(DA_FILE, "c") 
+				
+				btreeCreatePopDB.CreatePop(db, DA_FILE)
 
 			elif arg == 'indexfile':
 				#indexfile
+				print('indexfile')
 
 		elif opt == '2':
 			print("call something")
@@ -67,3 +69,5 @@ def main():
 		else:
 			print("Invalid Input")
 			continue
+
+main()
