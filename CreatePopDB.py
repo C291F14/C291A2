@@ -1,6 +1,7 @@
 # Berkeley DB
 # Chris Li
 
+# Creating and populating a database for btree.
 import bsddb3 as bsddb
 import random
 import time
