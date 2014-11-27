@@ -102,8 +102,8 @@ def main():
 				print("Thank you, come again")
 				sys.exit()
 			except:
-				print("Database could not be closed")
-				#raise
+				print("Database could not be closed because it does not exist")
+				raise
 
 		else:
 			print("Invalid input, Please try again")
