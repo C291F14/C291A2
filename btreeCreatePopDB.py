@@ -8,7 +8,7 @@ import subprocess
 import time
 
 #DA_FILE = "/tmp/my_db/291_db.db"
-DB_SIZE = 100000
+DB_SIZE = 10#100000
 DB_SEED = 10000000
 
 def getRandom():
