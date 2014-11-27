@@ -16,6 +16,8 @@ def main():
 	arg = sys.argv[1].lower()
 	inpList = ['btree', 'hash', 'indexfile']
 
+	db = False
+
 	# check valid program argument
 	if arg not in inpList:
 		print("Invalid Program Argument")
@@ -26,8 +28,6 @@ def main():
 		
 		opt = input("Please Select An Option\n 1 - Create and populate a database\n 2 - Retrieve records with a given key\n 3 - Retrieve records with given data\n 4 - Retrieve records with a range of key values\n 5 - Destroy Database\n 6 - Quit\n")
 		
-		#db = False
-
 		if opt == '1':
 			if arg == 'btree':
 				#btree
@@ -39,9 +39,7 @@ def main():
 					print("DB doesn't exist, creating a new one.")
 					db = db3.btopen(DA_FILE, "c") 
 			
-				print(db)
 				btreeCreatePopDB.CreatePop(db, DA_FILE)
-				print(db)
 
 			elif arg == 'hash':
 				#hash
@@ -74,7 +72,7 @@ def main():
 			for k,v in db.items():
 				if v == value:
 					key = k
-			if key != null:
+			if key != None:
 				print(key)
 			else:
 				print("There is no key associated with that value\n")
