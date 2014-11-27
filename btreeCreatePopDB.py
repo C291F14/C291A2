@@ -47,6 +47,11 @@ def CreatePop(db, DB_FILE):
     value = "Value".encode(encoding = 'UTF-8')
 
     db[key] = value
+
+    key = "Key".encode(encoding = 'UTF-8')
+    value = "Sup".encode(encoding = 'UTF-8')
+
+    db[key] = value
     
     end = dt.datetime.now()
     print("Database has been created.\nTime = " + str((end - start).total_seconds()) + "s")
