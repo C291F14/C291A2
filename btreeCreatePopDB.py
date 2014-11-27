@@ -21,25 +21,23 @@ def CreatePop(db, DB_FILE):
     print("Creating Database")
     start = dt.datetime.now()
 
+    index = 0
     # generate key-value pairs.
-    for index in range(DB_SIZE):
+    while index <= DB_SIZE:
         keyRange = 64 + getRandom()
         key = ""
         for i in range(keyRange):
             key = key +str(getRandomChar())
 
-        while db.has_key(key) == True:
-            keyRange = 64 + getRandom()
-            key = ""
-            for i in range(keyRange):
-                key = key +str(getRandomChar())
+        if db.has_key(key) == True:
+            continue
 
         valueRange = 64 + getRandom()
         value = ""
         for i in range(valueRange):
             value = value + str(getRandomChar())
 
-
+        index += 1
         # view key-value pairs.
         # print("value:", value)
         # print("")
@@ -51,7 +49,7 @@ def CreatePop(db, DB_FILE):
         # inserting the key-value pairs into the database.
         db[key] = value
 
-        
+
     key = "Key".encode(encoding = 'UTF-8')
     value = "Value".encode(encoding = 'UTF-8')
 
