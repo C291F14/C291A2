@@ -26,7 +26,7 @@ def main():
 		
 		opt = input("Please Select An Option\n 1 - Create and populate a database\n 2 - Retrieve records with a given key\n 3 - Retrieve records with given data\n 4 - Retrieve records with a range of key values\n 5 - Destroy Database\n 6 - Quit\n")
 		
-		db = False
+		#db = False
 
 		if opt == '1':
 			if arg == 'btree':
@@ -38,10 +38,10 @@ def main():
 				except:
 					print("DB doesn't exist, creating a new one.")
 					db = db3.btopen(DA_FILE, "c") 
-				
-
+			
 				print(db)
 				btreeCreatePopDB.CreatePop(db, DA_FILE)
+				print(db)
 
 			elif arg == 'hash':
 				#hash
