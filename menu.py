@@ -123,7 +123,6 @@ def main():
 
 				if in1 > in2:
 					print("Invalid range")
-					curs.close()
 
 				#btree range search
 				elif arg == 'btree':					
