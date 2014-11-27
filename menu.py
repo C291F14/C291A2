@@ -115,11 +115,12 @@ def main():
 				in1 = input("Enter a starting point: ").encode(encoding = 'UTF-8')
 				in2 = input("Enter an end point: ").encode(encoding = 'UTF-8')
 
-				if in1 > in2:
-					print("Invalid range")
-
 				curs = db.cursor()
 				output = {}
+
+				if in1 > in2:
+					print("Invalid range")
+					curs.close()
 
 				#btree range search
 				elif arg == 'btree':					
