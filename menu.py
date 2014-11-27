@@ -64,12 +64,18 @@ def main():
 				value = db[key]
 				print(value)
 			else:
-				print("There is no value associated with that key")
+				print("There is no value associated with that key\n")
 
 		elif opt == '3':
 			value = input("Please enter a value: ")#.lower()
 			value = value.encode(encoding = 'UTF-8')
-			
+			for k,v in db.items():
+				if v == value:
+					key = k
+			if key != null:
+				print(key)
+			else:
+				print("There is no key associated with that value\n")
 
 		elif opt == '4':
 			print("call something")
