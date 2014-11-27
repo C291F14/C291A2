@@ -5,7 +5,7 @@
 import bsddb3 as bsddb
 import random
 import subprocess
-import time
+import datetime as dt
 
 #DA_FILE = "/tmp/my_db/291_db.db"
 DB_SIZE = 100000
@@ -19,7 +19,7 @@ def getRandomChar():
 
 def CreatePop(db, DB_FILE):
     print("Creating Database")
-    start = time.clock()
+    start = dt.datetime.now()
 
     # generate key-value pairs.
     for index in range(DB_SIZE):
@@ -48,8 +48,8 @@ def CreatePop(db, DB_FILE):
 
     db[key] = value
     
-    end = time.clock()
-    print("Database has been created.\nTime = " + str(end - start) + "s")
+    end = dt.datetime.now()
+    print("Database has been created.\nTime = " + str((end - start).total_seconds()) + "s")
 
     # close the database.
     # try:
