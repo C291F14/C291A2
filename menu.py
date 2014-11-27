@@ -134,6 +134,8 @@ def main():
 						if k > in2:
 							break
 						else:
+							k = k.decode('UTF-8')
+							v = v.decode('UTF-8')
 							output[k] = v
 
 					for k,v in output.items():
