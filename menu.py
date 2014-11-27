@@ -84,24 +84,27 @@ def main():
 			if db == False:
 				print("Database not yet initialized")
 			else:
-				start = dt.datetime.now()
 				value = input("Please enter a value: ")#.lower()
+				start = dt.datetime.now()
 				value = value.encode(encoding = 'UTF-8')
+				records = 0
 				for k,v in db.items():
 					if v == value:
 						key = k
-				if key != None:
-					end = dt.datetime.now()
-					#write to file
-					f = open("answers", 'a')
-					f.write(str(key) + '\n')
-					f.write(str(value) + '\n')
-					f.write(" \n")
-					f.close()
+						records += 1
+					if key != None:
+						#write to file
+						f = open("answers", 'a')
+						f.write(str(key) + '\n')
+						f.write(str(value) + '\n')
+						f.write(" \n")
+						f.close()
 
-					print(key)
+						print(key)
+
+					end = dt.datetime.now()
 					print("Time: " + str((end - start).total_seconds()) + "s")
-					print("Number of Records: 1") # Same here??!?!?!?!?!?!?!?!?!WTF>>>!>!>!!!!???
+					print("Number of Records: " + str(records)) # Same here??!?!?!?!?!?!?!?!?!WTF>>>!>!>!!!!???
 
 
 				else:
@@ -123,8 +126,8 @@ def main():
 
 				#btree range search
 				elif arg == 'btree':					
-					print("Btree range search for: " + in1 + " " + in2)
-					k,v = db.set_range(in1)
+					print("Btree range search")
+					k,v = db.set_location(in1)
 					output[k] = v
 					while True:
 						k,v = db.next()
@@ -133,8 +136,8 @@ def main():
 						else:
 							output[k] = v
 
-					for k,v in output:
-						print("Key: " + k + ", Value: " + v)
+					for k,v in output.items():
+						print("Key: " , k , ", Value: " , v)
 
 				#hash range search
 				elif arg == 'hash':
