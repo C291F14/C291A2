@@ -108,7 +108,38 @@ def main():
 					print("There is no key associated with that value\n")
 
 		elif opt == '4':
-			print("call something")
+
+			if db == False:
+				print("Database not yet initialized")
+			else:
+				in1 = input("Enter a starting point: ").encode(encoding = 'UTF-8')
+				in2 = input("Enter an end point: ").encode(encoding = 'UTF-8')
+
+				if in1 > in2:
+					print("Invalid range")
+
+				curs = db.cursor()
+				output = {}
+
+				#btree range search
+				elif arg == 'btree':					
+					print("Btree range search for: " + in1 + " " + in2)
+					k,v = curs.set_range(in1)
+					output[k] = v
+					while curs != in2:
+						k,v = curs.next()
+						output[k] = v
+
+					for k,v in output:
+						print("Key: " + k + ", Value: " + v)
+
+				#hash range search
+				elif arg == 'hash':
+					print("Hash range search for: " + in1 + " " + in2)
+
+				elif arg == 'indexFile':
+					print("indexFilerange search for: " + in1 + " " + in2)
+
 
 		elif opt == '5':
 			try:
@@ -118,19 +149,16 @@ def main():
 				print("Database closed")
 			except:
 				print("Database could not be closed")
-				#raise
 
 		elif opt == '6':
 			try:
 				db.close()
 				subprocess.call(['rm','-r','-f',DA_FILE])
-				
 			except:
 				print("Database could not be closed because it does not exist")
 
 			print("Thank you, come again")
 			sys.exit()
-
 
 		else:
 			print("Invalid input, Please try again")

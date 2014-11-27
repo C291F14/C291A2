@@ -28,10 +28,17 @@ def CreatePop(db, DB_FILE):
         for i in range(keyRange):
             key = key +str(getRandomChar())
 
+        while db.has_key(key) == True:
+            keyRange = 64 + getRandom()
+            key = ""
+            for i in range(keyRange):
+                key = key +str(getRandomChar())
+
         valueRange = 64 + getRandom()
         value = ""
         for i in range(valueRange):
             value = value + str(getRandomChar())
+
 
         # view key-value pairs.
         # print("value:", value)
@@ -43,13 +50,10 @@ def CreatePop(db, DB_FILE):
 
         # inserting the key-value pairs into the database.
         db[key] = value
+
+        
     key = "Key".encode(encoding = 'UTF-8')
     value = "Value".encode(encoding = 'UTF-8')
-
-    db[key] = value
-
-    key = "Key".encode(encoding = 'UTF-8')
-    value = "Sup".encode(encoding = 'UTF-8')
 
     db[key] = value
     
