@@ -16,6 +16,8 @@ def main():
 	arg = sys.argv[1].lower()
 	inpList = ['btree', 'hash', 'indexfile']
 
+	db = False
+
 	# check valid program argument
 	if arg not in inpList:
 		print("Invalid Program Argument")
@@ -26,8 +28,6 @@ def main():
 		
 		opt = input("Please Select An Option\n 1 - Create and populate a database\n 2 - Retrieve records with a given key\n 3 - Retrieve records with given data\n 4 - Retrieve records with a range of key values\n 5 - Destroy Database\n 6 - Quit\n")
 		
-		db = False
-
 		if opt == '1':
 			if arg == 'btree':
 				#btree
@@ -38,7 +38,7 @@ def main():
 				except:
 					print("DB doesn't exist, creating a new one.")
 					db = db3.btopen(DA_FILE, "c") 
-					
+
 				btreeCreatePopDB.CreatePop(db, DA_FILE)
 
 			elif arg == 'hash':
@@ -58,18 +58,30 @@ def main():
 				print('indexfile')
 
 		elif opt == '2':
-			key = input("Please enter a key: ")#.lower()
-			key = key.encode(encoding = 'UTF-8')
-			if db.has_key(key) == True:
-				value = db[key]
-				print(value)
+			if db == False:
+				print("Database not yet initialized")
 			else:
-				print("There is no value associated with that key")
+				key = input("Please enter a key: ")#.lower()
+				key = key.encode(encoding = 'UTF-8')
+				if db.has_key(key) == True:
+					value = db[key]
+					print(value)
+				else:
+					print("There is no value associated with that key\n")
 
 		elif opt == '3':
-			value = input("Please enter a value: ")#.lower()
-			value = value.encode(encoding = 'UTF-8')
-			print(db.items())
+			if db == False:
+				print("Database not yet initialized")
+			else:
+				value = input("Please enter a value: ")#.lower()
+				value = value.encode(encoding = 'UTF-8')
+				for k,v in db.items():
+					if v == value:
+						key = k
+				if key != None:
+					print(key)
+				else:
+					print("There is no key associated with that value\n")
 
 		elif opt == '4':
 			print("call something")
@@ -81,7 +93,7 @@ def main():
 				print("Database closed")
 			except:
 				print("Database could not be closed")
-				raise
+				#raise
 
 		elif opt == '6':
 			try:
@@ -90,7 +102,7 @@ def main():
 				print("Thank you, come again")
 				sys.exit()
 			except:
-				print("Database could not be closed")
+				print("Database could not be closed because it does not exist")
 				raise
 
 		else:
