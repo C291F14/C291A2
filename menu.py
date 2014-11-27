@@ -34,10 +34,10 @@ def main():
 				subprocess.call(['rm', '-r', '-f', DA_FILE, '/tmp/my_db'])
 				subprocess.call(['mkdir', '/tmp/my_db'])
 				try:
-					db = bsddb.btopen(DA_FILE, "w")
+					db = db3.btopen(DA_FILE, "w")
 				except:
 					print("DB doesn't exist, creating a new one.")
-					db = bsddb.btopen(DA_FILE, "c") 
+					db = db3.btopen(DA_FILE, "c") 
 					
 				btreeCreatePopDB.CreatePop(db, DA_FILE)
 
