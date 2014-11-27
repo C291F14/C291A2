@@ -92,20 +92,16 @@ def main():
 				records = 0
 				for k,v in db.items():
 					if v == value:
-						key = k
-						print(key)
 						records += 1
-					if key != None:
 						#write to file
-						#key = key.decode('UTF-8')
-						value = value.decode('UTF-8')
+						k = k.decode('UTF-8')
+						v = v.decode('UTF-8')
+						print(k,v)
 						f = open("answers", 'a')
-						f.write(str(key) + '\n')
-						f.write(str(value) + '\n')
+						f.write(str(k) + '\n')
+						f.write(str(v) + '\n')
 						f.write(" \n")
 						f.close()
-
-						print(key)
 
 					end = dt.datetime.now()
 					print("Time: " + str((end - start).total_seconds()) + "s")
