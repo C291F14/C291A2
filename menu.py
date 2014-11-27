@@ -67,6 +67,8 @@ def main():
 				if db.has_key(key) == True:
 					value = db[key]
 					#write to file
+					key = key.decode('UTF-8')
+					value = value.decode('UTF-8')
 					f = open("answers", 'a')
 					f.write(str(key) + '\n')
 					f.write(str(value) + '\n')
@@ -94,6 +96,8 @@ def main():
 						records += 1
 					if key != None:
 						#write to file
+						key = key.decode('UTF-8')
+						value = value.decode('UTF-8')
 						f = open("answers", 'a')
 						f.write(str(key) + '\n')
 						f.write(str(value) + '\n')
@@ -136,6 +140,12 @@ def main():
 						else:
 							k = k.decode('UTF-8')
 							v = v.decode('UTF-8')
+							#write to file
+							f = open("answers", 'a')
+							f.write(str(k) + '\n')
+							f.write(str(v) + '\n')
+							f.write(" \n")
+							f.close()
 							output[k] = v
 
 					for k,v in output.items():
