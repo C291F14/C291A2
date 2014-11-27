@@ -38,7 +38,9 @@ def main():
 				except:
 					print("DB doesn't exist, creating a new one.")
 					db = db3.btopen(DA_FILE, "c") 
-					
+				
+
+				print(db)
 				btreeCreatePopDB.CreatePop(db, DA_FILE)
 
 			elif arg == 'hash':
