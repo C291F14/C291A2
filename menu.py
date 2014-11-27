@@ -93,10 +93,11 @@ def main():
 				for k,v in db.items():
 					if v == value:
 						key = k
+						print(key)
 						records += 1
 					if key != None:
 						#write to file
-						key = key.decode('UTF-8')
+						#key = key.decode('UTF-8')
 						value = value.decode('UTF-8')
 						f = open("answers", 'a')
 						f.write(str(key) + '\n')
