@@ -115,7 +115,6 @@ def main():
 				in1 = input("Enter a starting point: ").encode(encoding = 'UTF-8')
 				in2 = input("Enter an end point: ").encode(encoding = 'UTF-8')
 
-				curs = db.cursor()
 				output = {}
 
 				if in1 > in2:
@@ -125,11 +124,14 @@ def main():
 				#btree range search
 				elif arg == 'btree':					
 					print("Btree range search for: " + in1 + " " + in2)
-					k,v = curs.set_range(in1)
+					k,v = db.set_range(in1)
 					output[k] = v
-					while curs != in2:
-						k,v = curs.next()
-						output[k] = v
+					while True:
+						k,v = db.next()
+						if k > in2:
+							break
+						else:
+							output[k] = v
 
 					for k,v in output:
 						print("Key: " + k + ", Value: " + v)
