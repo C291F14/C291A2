@@ -58,24 +58,30 @@ def main():
 				print('indexfile')
 
 		elif opt == '2':
-			key = input("Please enter a key: ")#.lower()
-			key = key.encode(encoding = 'UTF-8')
-			if db.has_key(key) == True:
-				value = db[key]
-				print(value)
+			if db == False:
+				print("Database not yet initialized")
 			else:
-				print("There is no value associated with that key\n")
+				key = input("Please enter a key: ")#.lower()
+				key = key.encode(encoding = 'UTF-8')
+				if db.has_key(key) == True:
+					value = db[key]
+					print(value)
+				else:
+					print("There is no value associated with that key\n")
 
 		elif opt == '3':
-			value = input("Please enter a value: ")#.lower()
-			value = value.encode(encoding = 'UTF-8')
-			for k,v in db.items():
-				if v == value:
-					key = k
-			if key != None:
-				print(key)
+			if db == False:
+				print("Database not yet initialized")
 			else:
-				print("There is no key associated with that value\n")
+				value = input("Please enter a value: ")#.lower()
+				value = value.encode(encoding = 'UTF-8')
+				for k,v in db.items():
+					if v == value:
+						key = k
+				if key != None:
+					print(key)
+				else:
+					print("There is no key associated with that value\n")
 
 		elif opt == '4':
 			print("call something")
@@ -87,7 +93,7 @@ def main():
 				print("Database closed")
 			except:
 				print("Database could not be closed")
-				raise
+				#raise
 
 		elif opt == '6':
 			try:
@@ -97,7 +103,7 @@ def main():
 				sys.exit()
 			except:
 				print("Database could not be closed")
-				raise
+				#raise
 
 		else:
 			print("Invalid input, Please try again")
