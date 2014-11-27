@@ -125,9 +125,12 @@ def main():
 					print("Invalid range")
 
 				#btree range search
-				elif arg == 'btree':					
+				elif arg == 'btree':	
+					start = dt.datetime.now()				
 					print("Btree range search")
 					k,v = db.set_location(in1)
+					k = k.decode('UTF-8')
+					v = v.decode('UTF-8')
 					output[k] = v
 					while True:
 						k,v = db.next()
@@ -136,16 +139,19 @@ def main():
 						else:
 							k = k.decode('UTF-8')
 							v = v.decode('UTF-8')
-							#write to file
-							f = open("answers", 'a')
-							f.write(str(k) + '\n')
-							f.write(str(v) + '\n')
-							f.write(" \n")
-							f.close()
 							output[k] = v
 
 					for k,v in output.items():
 						print("Key: " , k , ", Value: " , v)
+						#write to file
+						f = open("answers", 'a')
+						f.write(str(k) + '\n')
+						f.write(str(v) + '\n')
+						f.write(" \n")
+						f.close()
+
+					end = dt.datetime.now()				
+					print("Time: " + str((end - start).total_seconds()) + "s")
 
 				#hash range search
 				elif arg == 'hash':
