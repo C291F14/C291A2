@@ -67,6 +67,8 @@ def main():
 				if db.has_key(key) == True:
 					value = db[key]
 					#write to file
+					key = key.decode('UTF-8')
+					value = value.decode('UTF-8')
 					f = open("answers", 'a')
 					f.write(str(key) + '\n')
 					f.write(str(value) + '\n')
@@ -84,31 +86,83 @@ def main():
 			if db == False:
 				print("Database not yet initialized")
 			else:
-				start = dt.datetime.now()
 				value = input("Please enter a value: ")#.lower()
+				start = dt.datetime.now()
 				value = value.encode(encoding = 'UTF-8')
+				records = 0
 				for k,v in db.items():
 					if v == value:
-						key = k
-				if key != None:
-					end = dt.datetime.now()
-					#write to file
-					f = open("answers", 'a')
-					f.write(str(key) + '\n')
-					f.write(str(value) + '\n')
-					f.write(" \n")
-					f.close()
-
-					print(key)
-					print("Time: " + str((end - start).total_seconds()) + "s")
-					print("Number of Records: 1") # Same here??!?!?!?!?!?!?!?!?!WTF>>>!>!>!!!!???
-
-
-				else:
+						records += 1
+						#write to file
+						k = k.decode('UTF-8')
+						v = v.decode('UTF-8')
+						f = open("answers", 'a')
+						f.write(str(k) + '\n')
+						f.write(str(v) + '\n')
+						f.write(" \n")
+						f.close()
+						print(k)
+				
+				if records == 0:
 					print("There is no key associated with that value\n")
 
+				end = dt.datetime.now()
+				print("Time: " + str((end - start).total_seconds()) + "s")
+				print("Number of Records: " + str(records)) # Same here??!?!?!?!?!?!?!?!?!WTF>>>!>!>!!!!???
+
+
 		elif opt == '4':
-			print("call something")
+
+			if db == False:
+				print("Database not yet initialized")
+			else:
+				in1 = input("Enter a starting point: ").encode(encoding = 'UTF-8')
+				in2 = input("Enter an end point: ").encode(encoding = 'UTF-8')
+
+				output = {}
+
+				if in1 > in2:
+					print("Invalid range")
+
+				#btree range search
+				elif arg == 'btree':	
+					start = dt.datetime.now()				
+					print("Btree range search")
+					k,v = db.set_location(in1)
+					k = k.decode('UTF-8')
+					v = v.decode('UTF-8')
+					output[k] = v
+					while True:
+						k,v = db.next()
+						if k > in2:
+							break
+						else:
+							k = k.decode('UTF-8')
+							v = v.decode('UTF-8')
+							output[k] = v
+
+					records = 0
+					for k,v in output.items():
+						records += 1
+						print("Key: " , k , ", Value: " , v)
+						#write to file
+						f = open("answers", 'a')
+						f.write(str(k) + '\n')
+						f.write(str(v) + '\n')
+						f.write(" \n")
+						f.close()
+
+					end = dt.datetime.now()				
+					print("Time: " + str((end - start).total_seconds()) + "s")
+					print("Number of Records: " + str(records))
+
+				#hash range search
+				elif arg == 'hash':
+					print("Hash range search for: " + in1 + " " + in2)
+
+				elif arg == 'indexFile':
+					print("indexFilerange search for: " + in1 + " " + in2)
+
 
 		elif opt == '5':
 			try:
@@ -118,19 +172,16 @@ def main():
 				print("Database closed")
 			except:
 				print("Database could not be closed")
-				#raise
 
 		elif opt == '6':
 			try:
 				db.close()
 				subprocess.call(['rm','-r','-f',DA_FILE])
-				
 			except:
 				print("Database could not be closed because it does not exist")
 
 			print("Thank you, come again")
 			sys.exit()
-
 
 		else:
 			print("Invalid input, Please try again")
