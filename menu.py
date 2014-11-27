@@ -90,26 +90,26 @@ def main():
 				start = dt.datetime.now()
 				value = value.encode(encoding = 'UTF-8')
 				records = 0
+				print("For the value:", value)
 				for k,v in db.items():
 					if v == value:
 						records += 1
 						#write to file
 						k = k.decode('UTF-8')
 						v = v.decode('UTF-8')
-						print(k,v)
 						f = open("answers", 'a')
 						f.write(str(k) + '\n')
 						f.write(str(v) + '\n')
 						f.write(" \n")
 						f.close()
+						print(k)
+					else:
+						print("There is no key associated with that value\n")
 
-					end = dt.datetime.now()
-					print("Time: " + str((end - start).total_seconds()) + "s")
-					print("Number of Records: " + str(records)) # Same here??!?!?!?!?!?!?!?!?!WTF>>>!>!>!!!!???
+				end = dt.datetime.now()
+				print("Time: " + str((end - start).total_seconds()) + "s")
+				print("Number of Records: " + str(records)) # Same here??!?!?!?!?!?!?!?!?!WTF>>>!>!>!!!!???
 
-
-				else:
-					print("There is no key associated with that value\n")
 
 		elif opt == '4':
 
