@@ -141,7 +141,9 @@ def main():
 							v = v.decode('UTF-8')
 							output[k] = v
 
+					records = 0
 					for k,v in output.items():
+						records += 1
 						print("Key: " , k , ", Value: " , v)
 						#write to file
 						f = open("answers", 'a')
@@ -152,6 +154,7 @@ def main():
 
 					end = dt.datetime.now()				
 					print("Time: " + str((end - start).total_seconds()) + "s")
+					print("Number of Records: " + str(records))
 
 				#hash range search
 				elif arg == 'hash':
