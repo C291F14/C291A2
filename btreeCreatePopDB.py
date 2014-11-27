@@ -43,6 +43,11 @@ def CreatePop(db, DB_FILE):
 
         # inserting the key-value pairs into the database.
         db[key] = value
+    key = "Key".encode(encoding = 'UTF-8')
+    value = "Value".encode(encoding = 'UTF-8')
+
+    db[key] = value
+    
     end = time.clock()
     print("Database has been created.\nTime = " + str(end - start) + "s")
 
