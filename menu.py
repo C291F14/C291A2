@@ -103,8 +103,9 @@ def main():
 						f.write(" \n")
 						f.close()
 						print(k)
-					else:
-						print("There is no key associated with that value\n")
+				
+				if records == 0:
+					print("There is no key associated with that value\n")
 
 				end = dt.datetime.now()
 				print("Time: " + str((end - start).total_seconds()) + "s")
