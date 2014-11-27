@@ -90,7 +90,6 @@ def main():
 				start = dt.datetime.now()
 				value = value.encode(encoding = 'UTF-8')
 				records = 0
-				print("For the value:", value)
 				for k,v in db.items():
 					if v == value:
 						records += 1
