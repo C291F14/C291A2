@@ -5,7 +5,7 @@
 import bsddb3 as db3
 import sys 
 import random
-import time 
+import datetime as dt 
 import subprocess
 import btreeCreatePopDB
 
@@ -61,11 +61,22 @@ def main():
 			if db == False:
 				print("Database not yet initialized")
 			else:
+				start = dt.datetime.now()
 				key = input("Please enter a key: ")#.lower()
 				key = key.encode(encoding = 'UTF-8')
 				if db.has_key(key) == True:
 					value = db[key]
+					#write to file
+					f = open("answers", 'a')
+					f.write(str(key) + '\n')
+					f.write(str(value) + '\n')
+					f.write(" \n")
+					f.close()
+
+					end = dt.datetime.now()
 					print(value)
+					print("Time: " + str((end - start).total_seconds()) + "s")
+					print("Number of Records: 1") # isn't this always 1????
 				else:
 					print("There is no value associated with that key\n")
 
@@ -73,13 +84,26 @@ def main():
 			if db == False:
 				print("Database not yet initialized")
 			else:
+				start = dt.datetime.now()
 				value = input("Please enter a value: ")#.lower()
 				value = value.encode(encoding = 'UTF-8')
 				for k,v in db.items():
 					if v == value:
 						key = k
 				if key != None:
+					end = dt.datetime.now()
+					#write to file
+					f = open("answers", 'a')
+					f.write(str(key) + '\n')
+					f.write(str(value) + '\n')
+					f.write(" \n")
+					f.close()
+
 					print(key)
+					print("Time: " + str((end - start).total_seconds()) + "s")
+					print("Number of Records: 1") # Same here??!?!?!?!?!?!?!?!?!WTF>>>!>!>!!!!???
+
+
 				else:
 					print("There is no key associated with that value\n")
 
@@ -89,6 +113,7 @@ def main():
 		elif opt == '5':
 			try:
 				db.close()
+				db = False
 				subprocess.call(['rm', '-r', '-f', DA_FILE, '/tmp/my_db'])
 				print("Database closed")
 			except:
@@ -98,12 +123,14 @@ def main():
 		elif opt == '6':
 			try:
 				db.close()
-				subprocess.call(['rm','-r','-f',DA_FILE,'/tmp/my_db'])
-				print("Thank you, come again")
-				sys.exit()
+				subprocess.call(['rm','-r','-f',DA_FILE])
+				
 			except:
 				print("Database could not be closed because it does not exist")
-				raise
+
+			print("Thank you, come again")
+			sys.exit()
+
 
 		else:
 			print("Invalid input, Please try again")
