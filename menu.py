@@ -9,8 +9,9 @@ import random
 import datetime as dt 
 import subprocess
 import btreeCreatePopDB
+import indexfileCreatePopDB
 
-DA_FILE = "/tmp/my_db/291_db.db"
+DA_FILE = "/tmp/cdingram_db/291_db.db"
 
 def main():
 	
@@ -18,6 +19,8 @@ def main():
 	inpList = ['btree', 'hash', 'indexfile']
 
 	db = False
+	dbK = False
+	dbV = False
 
 	# check valid program argument
 	if arg not in inpList:
@@ -32,35 +35,72 @@ def main():
 		if opt == '1':
 			if arg == 'btree':
 				#btree
-				subprocess.call(['rm', '-r', '-f', DA_FILE, '/tmp/my_db'])
-				subprocess.call(['mkdir', '/tmp/my_db'])
+				subprocess.call(['rm', '-r', '-f', DA_FILE, '/tmp/cdingram_db'])
+				subprocess.call(['mkdir', '/tmp/cdingram_db'])
 				try:
 					db = db3.btopen(DA_FILE, "w")
 				except:
 					print("DB doesn't exist, creating a new one.")
 					db = db3.btopen(DA_FILE, "c") 
 
-				btreeCreatePopDB.CreatePop(db, DA_FILE)
+				btreeCreatePopDB.CreatePop(db)
 
 			elif arg == 'hash':
 				#hash
-				subprocess.call(['rm', '-r', '-f', DA_FILE, '/tmp/my_db'])
-				subprocess.call(['mkdir', '/tmp/my_db'])
+				subprocess.call(['rm', '-r', '-f', DA_FILE, '/tmp/cdingram_db'])
+				subprocess.call(['mkdir', '/tmp/cdingram_db'])
 				try:
 					db = db3.hashopen(DA_FILE, "w")
 				except:
 					print("DB doesn't exist, creating a new one.")
 					db = db3.hashopen(DA_FILE, "c") 
 				
-				btreeCreatePopDB.CreatePop(db, DA_FILE)
+				btreeCreatePopDB.CreatePop(db)
 
 			elif arg == 'indexfile':
 				#indexfile
-				print('indexfile')
+				subprocess.call(['rm', '-r', '-f', DA_FILE, '/tmp/cdingram_db'])
+				subprocess.call(['mkdir', '/tmp/cdingram_db'])
+				try:
+					dbK = db3.btopen(DA_FILE, "w")
+				except:
+					print("DB doesn't exist, creating a new one.")
+					dbK = db3.btopen(DA_FILE, "c") 
+
+				# try:
+				# 	dbV = db3.btopen(DA_FILE, "w")
+				# except:
+				# 	print("DB doesn't exist, creating a new one.")
+				# 	dbV = db3.btopen(DA_FILE, "c") 
+				dbV1 = {}
+
+				dbV = indexfileCreatePopDB.CreatePop(dbK, dbV1)
 
 		elif opt == '2':
-			if db == False:
+			if db == False and dbK == False:
 				print("Database not yet initialized")
+			elif arg == "indexfile":
+				start = dt.datetime.now()
+				key = input("Please enter a key: ")#.lower()
+				key = key.encode(encoding = 'UTF-8')
+				if dbK.has_key(key) == True:
+					value = dbK[key]
+					#write to file
+					key = key.decode('UTF-8')
+					value = value.decode('UTF-8')
+					f = open("answers", 'a')
+					f.write(str(key) + '\n')
+					f.write(str(value) + '\n')
+					f.write(" \n")
+					f.close()
+
+					end = dt.datetime.now()
+					print(value)
+					print("Time: " + str((end - start).total_seconds()) + "s")
+					print("Number of Records: 1") # isn't this always 1????
+				else:
+					print("There is no value associated with that key\n")
+
 			else:
 				start = dt.datetime.now()
 				key = input("Please enter a key: ")#.lower()
@@ -84,8 +124,33 @@ def main():
 					print("There is no value associated with that key\n")
 
 		elif opt == '3':
-			if db == False:
+			if db == False and dbK == False:
 				print("Database not yet initialized")
+
+			elif arg == "indexfile":
+				start = dt.datetime.now()
+				key = input("Please enter a value: ")#.lower()
+				key = key.encode(encoding = 'UTF-8')
+				print(dbV[key])
+				try:
+					value = dbV[key]
+					#write to file
+					key = key.decode('UTF-8')
+					value = value.decode('UTF-8')
+					f = open("answers", 'a')
+					f.write(str(value) + '\n')
+					f.write(str(key) + '\n')
+					f.write(" \n")
+					f.close()
+
+					end = dt.datetime.now()
+					print(value)
+					print("Time: " + str((end - start).total_seconds()) + "s")
+					print("Number of Records: ") 
+				except:
+					print("There is no key associated with that value\n")
+
+
 			else:
 				value = input("Please enter a value: ")#.lower()
 				start = dt.datetime.now()
@@ -190,7 +255,7 @@ def main():
 						records += 1
 						print("Key: ", k , ", Value: ", v)
 						#write to file
-						f = open("answers", 'a')
+						f = open("answers2", 'a')
 						f.write(str(k) + '\n')
 						f.write(str(v) + '\n')
 						f.write(" \n")
@@ -201,14 +266,44 @@ def main():
 					print("Number of Records: " + str(records))
 
 				elif arg == 'indexFile':
-					print("indexFilerange search for: " + in1 + " " + in2)
+					print("indexFilerange search")
+					start = dt.datetime.now()				
+					k,v = dbK.set_location(in1)
+					k = k.decode('UTF-8')
+					v = v.decode('UTF-8')
+					output[k] = v
+					while True:
+						k,v = dbK.next()
+						if k > in2:
+							break
+						else:
+							k = k.decode('UTF-8')
+							v = v.decode('UTF-8')
+							output[k] = v
+
+					records = 0
+					for k,v in output.items():
+						records += 1
+						print("Key: " , k , ", Value: " , v)
+						#write to file
+						f = open("answers", 'a')
+						f.write(str(k) + '\n')
+						f.write(str(v) + '\n')
+						f.write(" \n")
+						f.close()
+
+					end = dt.datetime.now()				
+					print("Time: " + str((end - start).total_seconds()) + "s")
+					print("Number of Records: " + str(records))
 
 
 		elif opt == '5':
 			try:
 				db.close()
 				db = False
-				subprocess.call(['rm', '-r', '-f', DA_FILE, '/tmp/my_db'])
+				dbK = False
+				dbV = False
+				subprocess.call(['rm', '-r', '-f', DA_FILE, '/tmp/cdingram_db'])
 				print("Database closed")
 			except:
 				print("Database could not be closed")

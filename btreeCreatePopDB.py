@@ -23,6 +23,7 @@ def getRandomChar():
 def CreatePop(db, DB_FILE):
     print("Creating Database")
     start = dt.datetime.now()
+    random.seed(DB_SEED)
 
     index = 0
     # generate key-value pairs.
@@ -45,29 +46,11 @@ def CreatePop(db, DB_FILE):
         value = value.encode(encoding = 'UTF-8')
 
         index += 1
-        # view key-value pairs.
-        # print("value:", value)
-        # print("")
-
-        # inserting the key-value pairs into the database.
+        
         db[key] = value
 
-
-    key = "Key".encode(encoding = 'UTF-8')
-    value = "Value".encode(encoding = 'UTF-8')
-
-    db[key] = value
-    key = "MONEY".encode(encoding = 'UTF-8')
-    value = "Value".encode(encoding = 'UTF-8')
-
-    db[key] = value
     end = dt.datetime.now()
     print("Database has been created.\nTime = " + str((end - start).total_seconds()) + "s")
 
-    # close the database.
-    # try:
-    #     db.close()
-    # except Exception as e:
-    #     print(e)
     return
     
