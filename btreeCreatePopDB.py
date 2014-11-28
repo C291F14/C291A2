@@ -1,4 +1,7 @@
 # Berkeley DB
+# author: Bing Xu
+# email: bx3@ualberta.ca
+
 # Chris Li
 
 # Creating and populating a database for btree.

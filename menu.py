@@ -1,6 +1,7 @@
 # Berkeley DB
 # Cody Ingram
 # Aaron Tse
+# Chris Li
 
 import bsddb3 as db3
 import sys 
@@ -158,7 +159,46 @@ def main():
 
 				#hash range search
 				elif arg == 'hash':
-					print("Hash range search for: " + in1 + " " + in2)
+					print("Hash range search")
+					start = dt.datetime.now()
+					
+					a,b = db.last()
+					k,v = db.first()
+					
+					while True:
+						
+						if k == a and v == b:
+							if (in1 <= k) and (in2 >= k):
+								k = k.decode('UTF-8')
+								v = v.decode('UTF-8')
+								output[k] = v
+								break
+							else:
+								break						
+
+						if (in1 <= k) and (in2 >= k):
+							k = k.decode('UTF-8')
+							v = v.decode('UTF-8')
+							output[k] = v
+							k,v = db.next()
+						else:
+							k,v = db.next()
+						
+						
+					records = 0
+					for k,v in output.items():
+						records += 1
+						print("Key: ", k , ", Value: ", v)
+						#write to file
+						f = open("answers", 'a')
+						f.write(str(k) + '\n')
+						f.write(str(v) + '\n')
+						f.write(" \n")
+						f.close()						
+				
+					end = dt.datetime.now()					
+					print("Time: " + str((end - start).total_seconds()) + "s")
+					print("Number of Records: " + str(records))
 
 				elif arg == 'indexFile':
 					print("indexFilerange search for: " + in1 + " " + in2)
