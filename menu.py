@@ -80,15 +80,15 @@ def main():
 			if db == False and dbK == False:
 				print("Database not yet initialized")
 			elif arg == "indexfile":
-				start = dt.datetime.now()
 				key = input("Please enter a key: ")#.lower()
+				start = dt.datetime.now()
 				key = key.encode(encoding = 'UTF-8')
 				if dbK.has_key(key) == True:
 					value = dbK[key]
 					#write to file
 					key = key.decode('UTF-8')
 					value = value.decode('UTF-8')
-					f = open("answers", 'a')
+					f = open("answers3", 'a')
 					f.write(str(key) + '\n')
 					f.write(str(value) + '\n')
 					f.write(" \n")
@@ -102,8 +102,8 @@ def main():
 					print("There is no value associated with that key\n")
 
 			else:
-				start = dt.datetime.now()
 				key = input("Please enter a key: ")#.lower()
+				start = dt.datetime.now()
 				key = key.encode(encoding = 'UTF-8')
 				if db.has_key(key) == True:
 					value = db[key]
@@ -128,28 +128,31 @@ def main():
 				print("Database not yet initialized")
 
 			elif arg == "indexfile":
-				start = dt.datetime.now()
 				key = input("Please enter a value: ")#.lower()
+				start = dt.datetime.now()
 				key = key.encode(encoding = 'UTF-8')
-				print(dbV[key])
 				try:
 					value = dbV[key]
+				except:
+					print("There is no key associated with that value\n")
+
+				records = 0
+				key = key.decode('UTF-8')
+				for each in value:
+					val = each.decode('UTF-8')
+					print(val)
+					records += 1
 					#write to file
-					key = key.decode('UTF-8')
-					value = value.decode('UTF-8')
-					f = open("answers", 'a')
-					f.write(str(value) + '\n')
+					f = open("answers3", 'a')
+					f.write(str(val) + '\n')
 					f.write(str(key) + '\n')
 					f.write(" \n")
 					f.close()
 
-					end = dt.datetime.now()
-					print(value)
-					print("Time: " + str((end - start).total_seconds()) + "s")
-					print("Number of Records: ") 
-				except:
-					print("There is no key associated with that value\n")
-
+				end = dt.datetime.now()
+				print("Time: " + str((end - start).total_seconds()) + "s")
+				print("Number of Records: " + str(records)) 
+			
 
 			else:
 				value = input("Please enter a value: ")#.lower()
@@ -179,7 +182,7 @@ def main():
 
 		elif opt == '4':
 
-			if db == False:
+			if db == False and dbK == False:
 				print("Database not yet initialized")
 			else:
 				in1 = input("Enter a starting point: ").encode(encoding = 'UTF-8')
@@ -195,6 +198,8 @@ def main():
 					start = dt.datetime.now()				
 					print("Btree range search")
 					k,v = db.set_location(in1)
+					if k < in1 or k > in2:
+						continue
 					k = k.decode('UTF-8')
 					v = v.decode('UTF-8')
 					output[k] = v
@@ -265,10 +270,12 @@ def main():
 					print("Time: " + str((end - start).total_seconds()) + "s")
 					print("Number of Records: " + str(records))
 
-				elif arg == 'indexFile':
+				elif arg == 'indexfile':
 					print("indexFilerange search")
 					start = dt.datetime.now()				
 					k,v = dbK.set_location(in1)
+					if k < in1 or k > in2:
+						continue
 					k = k.decode('UTF-8')
 					v = v.decode('UTF-8')
 					output[k] = v
@@ -286,7 +293,7 @@ def main():
 						records += 1
 						print("Key: " , k , ", Value: " , v)
 						#write to file
-						f = open("answers", 'a')
+						f = open("answers3", 'a')
 						f.write(str(k) + '\n')
 						f.write(str(v) + '\n')
 						f.write(" \n")
@@ -299,18 +306,28 @@ def main():
 
 		elif opt == '5':
 			try:
-				db.close()
-				db = False
-				dbK = False
-				dbV = False
-				subprocess.call(['rm', '-r', '-f', DA_FILE, '/tmp/cdingram_db'])
-				print("Database closed")
+				if arg == 'indexfile':
+					dbK.close()
+				else:
+					db.close()
 			except:
-				print("Database could not be closed")
+				print("Database could not be closed or doesn't exist")
+			db = False
+			dbK = False
+			dbV = False
+			try:
+				subprocess.call(['rm', '-r', '-f', DA_FILE, '/tmp/cdingram_db'])
+				print("Database file deleted if necessary")
+			except:
+				print("No database to delete")
+			
 
 		elif opt == '6':
 			try:
-				db.close()
+				if arg == 'indexfile':
+					dbK.close()
+				else:
+					db.close()
 				subprocess.call(['rm','-r','-f',DA_FILE])
 			except:
 				print("Database could not be closed because it does not exist")

@@ -4,7 +4,7 @@ import random
 import subprocess
 import datetime as dt
 
-DB_SIZE = 10#100000
+DB_SIZE = 100000
 DB_SEED = 10000000
 
 def getRandom():
@@ -43,22 +43,13 @@ def CreatePop(dbK, dbV1):
 		dbK[key] = value
 		dbV1[key] = value
 
-	#test
+	
 	dbV = {}
-	key = "Key".encode(encoding = 'UTF-8')
-	value = "Value".encode(encoding = 'UTF-8')
-	dbK[key] = value
-	dbV1[key] = value
-	key = "MONEY".encode(encoding = 'UTF-8')
-	value = "Value".encode(encoding = 'UTF-8')
-	dbK[key] = value
-	dbV1[key] = value
 
 	for k, v in dbV1.items():
 		dbV[v] = dbV.get(v, [])
 		dbV[v].append(k)
 
-	print(dbV)
 
 	end = dt.datetime.now()
 	print("Database has been created.\nTime = " + str((end - start).total_seconds()) + "s")

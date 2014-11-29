@@ -2,7 +2,7 @@
 # author: Bing Xu
 # email: bx3@ualberta.ca
 
-# Chris Li
+# Edited by Chris Li
 
 # Creating and populating a database for btree.
 import bsddb3 as bsddb
@@ -10,7 +10,6 @@ import random
 import subprocess
 import datetime as dt
 
-#DA_FILE = "/tmp/my_db/291_db.db"
 DB_SIZE = 100000
 DB_SEED = 10000000
 
@@ -20,7 +19,7 @@ def getRandom():
 def getRandomChar():
     return chr(97+random.randint(0,25))
 
-def CreatePop(db, DB_FILE):
+def CreatePop(db):
     print("Creating Database")
     start = dt.datetime.now()
     random.seed(DB_SEED)
