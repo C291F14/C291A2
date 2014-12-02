@@ -215,13 +215,14 @@ def main():
 					records = 0
 					for k,v in output.items():
 						records += 1
-						print("Key: " , k , ", Value: " , v)
+						#print("Key: " , k , ", Value: " , v)
 						#write to file
 						f = open("answers", 'a')
 						f.write(str(k) + '\n')
 						f.write(str(v) + '\n')
 						f.write(" \n")
 						f.close()
+					print("Query recorded")
 
 					end = dt.datetime.now()				
 					print("Time: " + str((end - start).total_seconds()) + "s")
@@ -258,13 +259,14 @@ def main():
 					records = 0
 					for k,v in output.items():
 						records += 1
-						print("Key: ", k , ", Value: ", v)
+						#print("Key: ", k , ", Value: ", v)
 						#write to file
 						f = open("answers2", 'a')
 						f.write(str(k) + '\n')
 						f.write(str(v) + '\n')
 						f.write(" \n")
-						f.close()						
+						f.close()
+					print("Query recorded")						
 				
 					end = dt.datetime.now()					
 					print("Time: " + str((end - start).total_seconds()) + "s")
@@ -291,13 +293,14 @@ def main():
 					records = 0
 					for k,v in output.items():
 						records += 1
-						print("Key: " , k , ", Value: " , v)
+						#print("Key: " , k , ", Value: " , v)
 						#write to file
 						f = open("answers3", 'a')
 						f.write(str(k) + '\n')
 						f.write(str(v) + '\n')
 						f.write(" \n")
 						f.close()
+					print("Query recorded")
 
 					end = dt.datetime.now()				
 					print("Time: " + str((end - start).total_seconds()) + "s")
